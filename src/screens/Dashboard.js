@@ -81,7 +81,7 @@ function Dashboard(props) {
                 setButtonText("Next")
             }
         } else {
-            console.log("submit clicked")
+            setButtonText("Please wait...")
             submitAnswers();
         }
 
@@ -129,7 +129,6 @@ function Dashboard(props) {
 
 
     const startTimer = () => {
-        console.log("timer started")
         id = setInterval(timer, 1000);
         function timer() {
             if (minutes === 0 && secends === 0) {
@@ -152,7 +151,6 @@ function Dashboard(props) {
 
 
     const stopTimer = () => {
-        console.log("Timer stoped")
         clearInterval(id)
     }
 
@@ -195,16 +193,18 @@ function Dashboard(props) {
     }
 
     useEffect(() => {
-        if(props.history.action==="POP"){
+        if (props.history.action === "POP") {
             props.history.replace('/')
-        }else{
+        } else {
+            
             startTimer();
+            
+
         }
     }, [])
 
     const submitAnswers = () => {
         stopTimer();
-        // setButtonText("Please Wait...")
         const obj = {
             mailid: questionContext.mailID,
             answers: userAnswers
@@ -216,12 +216,10 @@ function Dashboard(props) {
             .then(result => result.json())
             .then(response => {
                 questionContext.updateResult(response)
-                // setButtonText("Done")
                 props.history.push('/result', { UserResult: response })
             })
             .catch(error => {
                 console.log(error);
-                // setButtonText("error")
             })
     }
 
